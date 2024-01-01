@@ -2,8 +2,9 @@ import React, { useRef, useState } from 'react';
 import GoogleMap from 'google-maps-react-markers';
 
 
-const Marker = ({ name }) => (
-    <div style={{
+const Marker = ({markerData}) => {
+    console.log(markerData)
+    return <div style={{
         position: 'relative',
         color: 'white',
         background: 'black',
@@ -16,7 +17,9 @@ const Marker = ({ name }) => (
         borderRadius: '4px',
         transform: 'translate(0%, -120%)' // Adjusted to align the bottom of the div with the marker location
       }}>
-        {name}
+        {markerData.name}
+        <br></br>
+        {markerData.deal}
         <div style={{
           position: 'absolute',
           bottom: '-10px', // Adjust the position as needed
@@ -28,7 +31,7 @@ const Marker = ({ name }) => (
           borderColor: 'black transparent transparent transparent', // The first color is the color of the triangle
         }} />
       </div>
-  );
+};
 
 const MapView = ({data}) => {
     console.log(data)
@@ -61,12 +64,12 @@ const MapView = ({data}) => {
         onGoogleApiLoaded={onGoogleApiLoaded}
         onChange={(map) => console.log('Map moved', map)}
       >
-        {data?.map(({ lat, lng, name }, index) => (
+        {data?.map((each, index) => (
           <Marker
             key={index}
-            lat={lat}
-            lng={lng}
-            name={name}
+            lat={each.lat}
+            lng={each.lng}
+            markerData={each}
             onClick={onMarkerClick}
           />
         ))}
