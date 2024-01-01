@@ -1,26 +1,54 @@
 import { useState, useEffect } from "react";
+import ListView from "./components/ListView";
+import MapView from "./components/MapView";
 
-const SPREADSHEET_ID = "15LaPp45nyGFhK-do1EpMoSs9pdgy_2bdQzje485Yb-Y";
-const RANGE = "A2:G1000";
+const RANGE = "A1:G1000";
 
 export default function App() {
   const [data, setData] = useState();
-
+  const [activeTab, setActiveTab] = useState('map'); 
 
   useEffect(() => {
     fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${process.env.REACT_APP_API_KEY}`
+      `https://sheets.googleapis.com/v4/spreadsheets/${process.env.REACT_APP_SPREADSHEET_ID}/values/${RANGE}?key=${process.env.REACT_APP_API_KEY}`
     )
-      .then((response) => response.json())
-      .then((result) => {
-        setData(result.values)
-      })
-      .catch((error) => console.log(error));
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.values && result.values.length > 0) {
+        const keys = result.values[0];
+        const transformedData = result.values.slice(1).map(row => {
+          const obj = {};
+          keys.forEach((key, index) => {
+            obj[key] = row[index];
+          });
+          return obj;
+        });
+        setData(transformedData);
+      }
+    })
+    .catch((error) => console.log(error));
   }, []);
 
   return (
-    <pre>
-      {JSON.stringify(data, null, 4)}
-    </pre>
+    <div>
+      <button onClick={() => setActiveTab('map')}>Map View</button>
+      <button onClick={() => setActiveTab('list')}>List View</button>
+      <button onClick={() => setActiveTab('add')}>Add Happy Hours!</button>
+
+      {activeTab === 'list' && (
+        <ListView data={data} />
+      )}
+
+      {activeTab === 'map' && (
+        <MapView data={data} />
+      )}
+
+      {activeTab === 'add' && (
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScqs9dI6Z55EyHo6qbTqKv60GbojVEevVc0CHDDgARcw-wr1w/viewform?embedded=true" width="640" height="922" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+      )}
+    </div>
   );
 }
+
+
+
