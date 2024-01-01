@@ -35,6 +35,7 @@ export default function App() {
       <button onClick={() => setActiveTab('map')}>Map View</button>
       <button onClick={() => setActiveTab('list')}>List View</button>
       <button onClick={() => setActiveTab('add')}>Add Happy Hours!</button>
+      <div style={{marginTop: "16px"}}></div>
 
       {activeTab === 'list' && (
         <ListView data={data} />
