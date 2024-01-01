@@ -31,6 +31,7 @@ export default function App() {
 
   return (
     <div>
+      <h1>Find Happy Hour Deals!</h1>
       <button onClick={() => setActiveTab('map')}>Map View</button>
       <button onClick={() => setActiveTab('list')}>List View</button>
       <button onClick={() => setActiveTab('add')}>Add Happy Hours!</button>

@@ -4,18 +4,30 @@ import GoogleMap from 'google-maps-react-markers';
 
 const Marker = ({ name }) => (
     <div style={{
-      color: 'white', 
-      background: 'black',
-      padding: '15px 10px',
-      display: 'inline-flex',
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '4px',
-      transform: 'translate(-50%, -50%)'
-    }}>
-      {name}
-    </div>
+        position: 'relative',
+        color: 'white',
+        background: 'black',
+        padding: '15px 10px',
+        display: 'inline-flex',
+        textAlign: 'center',
+        alignItems: 'center',
+        textWrap: "nowrap",
+        justifyContent: 'center',
+        borderRadius: '4px',
+        transform: 'translate(0%, -120%)' // Adjusted to align the bottom of the div with the marker location
+      }}>
+        {name}
+        <div style={{
+          position: 'absolute',
+          bottom: '-10px', // Adjust the position as needed
+          left: '0',
+          width: '0',
+          height: '0',
+          borderStyle: 'solid',
+          borderWidth: '10px 10px 0 0', // Adjust to change the size of the triangular point
+          borderColor: 'black transparent transparent transparent', // The first color is the color of the triangle
+        }} />
+      </div>
   );
 
 const MapView = ({data}) => {
